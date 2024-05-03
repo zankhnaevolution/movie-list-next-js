@@ -7,9 +7,9 @@ export default function Layout({children} : {children: React.ReactDOM}){
     const pathName = usePathname();
     return(
         <>
-            <p>
+            {/* <p>
                 You are in authentication pages {pathName}
-            </p>
+            </p> */}
             {children}
         </>
     )

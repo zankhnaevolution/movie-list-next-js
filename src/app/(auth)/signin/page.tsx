@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
+import Cookies from 'js-cookie';
+import styles from '../../styles/signin.module.css'
 
 export default function Signin() {
 
@@ -13,33 +15,37 @@ export default function Signin() {
     function handleSubmit(e: FormEvent){
         e.preventDefault();
 
-        fetch(
-            "http://localhost:3000/signin", 
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email, password
-                }),
-            }
-        )
-            .then((response) => {
-                if(!response.ok){
-                    throw new Error('Try Again');
+        if(email && password){
+            fetch(
+                "http://localhost:3000/signin", 
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email, password
+                    }),
                 }
-                response.json()
-            })
-            .then((result) => {
-                router.push('/movie/')
-            })
-            .catch((error) => {
-                console.log(error)
-                setEmail('')
-                setPassword('')
-                setTryAgainMessage(true);
-            });
+            )
+                .then(async(response) => {
+                    if(!response.ok){
+                        throw new Error('Try Again');
+                    }
+                    return response.json();
+                })
+                .then((result) => {    
+                    Cookies.set('Authorization', `Bearer ${result.access_token}`);    
+                    router.push('/movie/')
+                })
+                .catch((error) => {
+                    console.log(error)
+                    setEmail('')
+                    setPassword('')
+                    setTryAgainMessage(true);
+                });
+        }
+
     }
 
     function handleKeyDown(){
@@ -47,19 +53,43 @@ export default function Signin() {
     }
 
     return (
+        <main className="vh-100 d-flex justify-content-center align-items-center">
+            <div className={styles.login_box + ' p-3'}>
+                <h1 className={`display-6 mb-3 text-center text-white ${styles['h1-css']}`}>Sign in</h1>
+                <form method="post" onSubmit={(e) => handleSubmit(e)}>
+                    <div className="mb-3">
+                        <input 
+                            value={email}
+                            className={`form-control ${styles["input-css"]}`} 
+                            placeholder="Email" 
+                            onChange={(e) => setEmail(e.target.value)} 
+                            onKeyDown={() => handleKeyDown()} />
+                    </div>
+        
+                    <div className="mb-3">
+                        <input
+                            value={password} 
+                            className={`form-control ${styles["input-css"]}`}
+                            placeholder="Password" 
+                            type="password"
+                            onChange={(e) => setPassword(e.target.value)} 
+                            onKeyDown={() => handleKeyDown()} />
+                    </div>
 
-        <>
+                    <div className={`mb-3 ${styles["wrapper"]} ${styles["body-small"]}`}>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                value="remember-me" 
+                                className={styles["checkbox-css"]} /> Remember me
+                        </label>
+                    </div>
 
-        { tryAgainMessage && "Try Again for Login" }
-
-        <form method="post" onSubmit={(e) => handleSubmit(e)}>
-            Email: 
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={() => handleKeyDown()}/><br></br>
-            Password: 
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={() => handleKeyDown()}/><br></br>
-            <button type="submit">Sign In</button>
-        </form>
-
-        </>
+                    <div className={`mb-3 ${styles["wrapper"]} ${styles["body-regular"]}`}>
+                        <button type="submit" className={`btn ${styles["login-btn"]}`}>Login</button>
+                    </div>
+                </form>
+            </div>
+        </main>
     )
 }

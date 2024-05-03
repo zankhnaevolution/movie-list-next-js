@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { notFound } from "next/navigation";
 
 export default function Auth(){
 
@@ -9,27 +11,47 @@ export default function Auth(){
 
     useEffect(() => {
         fetch(
-            "http://localhost:3000/movie", 
+            `http://localhost:3000/movie`, 
             {
                 headers: {
                     method: 'GET',
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzBlNDNhZjA4YjRhMGIxZWIxY2E0NCIsImVtYWlsIjoiemFua2huYS5yQGV2b2x1dGlvbmNsb3VkLmluIiwiaWF0IjoxNzE0NjU2OTA5LCJleHAiOjE3MTQ3NDMzMDl9.DJEZJZDK8Fl1N7G8CbWsaaQaneZ6vXSb1N5DYJxXRFc"
+                    "Authorization": `${Cookies.get('Authorization')}`
                 }
             }
         )
             .then((response) => response.json())
             .then((result) => {
-                setMovies(result)
+                if(result.length > 0){
+                    setMovies(result)
+                }else{
+                    console.log("Elseeee")
+                    notFound();
+                }
             })
             .catch((error) => console.error(error));
     }, [])
 
-
     return(
-        <>
-            { movies.map(movie => (
-                movie._id
-            )) }
+        <>  
+            <main className="vh-100 d-flex justify-content-center align-items-center">
+                <div className="row row-cols-3 row-cols-md-4">
+
+                    { movies.map(movie => (
+
+                    <div className="col mb-4">
+                        <div className="card">
+                        <img src={`http://localhost:3000/uploads/${movie.movie_img}`} className="card-img-top" alt="..."/>
+                        <div className="card-body">
+                            <h5 className="card-title" style={{color: "white"}}>{movie.movie_title}</h5>
+                            <p className="card-text">{movie.movie_published_year}</p>
+                        </div>
+                        </div>
+                    </div>
+
+                    ))}
+
+                </div>
+            </main>
         </>
     )
 }

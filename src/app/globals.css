@@ -77,6 +77,9 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  background-color: #093545;
+  color: white;
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 html,
@@ -93,6 +96,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  /* font-family: 'Montserrat', sans-serif; */
 }
 
 a {
@@ -105,3 +109,5 @@ a {
     color-scheme: dark;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?  family=Montserrat:ital,wght@0,100;0,200;1,100;1,200&display=swap');
