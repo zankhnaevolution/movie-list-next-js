@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
 import Cookies from 'js-cookie';
 import styles from '../../styles/signin.module.css'
+import cStyles from '../../styles/common.module.css';
 
 export default function Signin() {
 
@@ -53,9 +54,9 @@ export default function Signin() {
     }
 
     return (
-        <main className="vh-100 d-flex justify-content-center align-items-center">
+        <main className={`vh-100 d-flex justify-content-center align-items-center ${cStyles['page-background-color']}`}>
             <div className={styles.login_box + ' p-3'}>
-                <h1 className={`display-6 mb-3 text-center text-white ${styles['h1-css']}`}>Sign in</h1>
+                <h1 className={`display-6 mb-3 text-center text-white ${cStyles['h1-css']}`}>Sign in</h1>
                 <form method="post" onSubmit={(e) => handleSubmit(e)}>
                     <div className="mb-3">
                         <input 
@@ -76,16 +77,17 @@ export default function Signin() {
                             onKeyDown={() => handleKeyDown()} />
                     </div>
 
-                    <div className={`mb-3 ${styles["wrapper"]} ${styles["body-small"]}`}>
+                    <div className={`mb-3 ${styles["wrapper"]} ${cStyles["body-small"]}`}>
                         <label>
                             <input 
                                 type="checkbox" 
                                 value="remember-me" 
-                                className={styles["checkbox-css"]} /> Remember me
+                                className={styles["checkbox-css"]} />
+                                <span className="checkmark"></span> Remember me
                         </label>
                     </div>
 
-                    <div className={`mb-3 ${styles["wrapper"]} ${styles["body-regular"]}`}>
+                    <div className={`mb-3 ${styles["wrapper"]} ${cStyles["body-regular"]}`}>
                         <button type="submit" className={`btn ${styles["login-btn"]}`}>Login</button>
                     </div>
                 </form>

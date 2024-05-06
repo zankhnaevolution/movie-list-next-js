@@ -1,0 +1,51 @@
+.movies-div{
+    justify-content: center;
+}
+
+.movie-div{
+    background-color: #092C39;
+    width: 282px;
+    height: 504px;
+    margin-left: 15px;
+    /* top: 55px; */
+    /* left: 80px; */
+    position: relative;
+    border: none;
+    border-radius: 12px;
+}
+
+.movie-div-card{
+    background: #092C39;
+    border: none
+}
+
+.movie-img{
+    width: 260px;
+    height: 400px;
+    top: 11px;
+    /* left: 8px; */
+    border-radius: 12px;
+    position: inherit;
+}
+
+.movie-nav-element{
+    cursor: pointer;
+    margin-left: 10px;
+    text-decoration: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.movie-nav-square{
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background-color: #092C39;
+}
+
+.movie-nav-square-active{
+    background-color: #2BD17E;
+}
