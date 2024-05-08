@@ -1,3 +1,7 @@
+/* .movie-list-main-css {
+    padding: 5% 4% 4% 4%;
+} */
+
 .movies-div{
     justify-content: center;
 }
@@ -12,6 +16,10 @@
     position: relative;
     border: none;
     border-radius: 12px;
+}
+
+.movie-div:hover, .movie-div:hover > .movie-div-card, .movie-div-card:hover {
+    background-color: #224957;
 }
 
 .movie-div-card{
@@ -49,3 +57,20 @@
 .movie-nav-square-active{
     background-color: #2BD17E;
 }
+
+.pagination-disabled{
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.create-movie-btn { 
+    margin-top: 3%;
+    cursor: pointer;
+    width: 28px; 
+    height: 28px; 
+    border: 2px solid white;
+    border-radius: 50%; 
+    color: white; 
+    text-align: center; 
+    text-decoration: none;
+} 

@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from 'react'
-import Cookies from 'js-cookie'
+// import { useState } from 'react'
+// import Cookies from 'js-cookie'
 import cStyles from '../../../styles/common.module.css'
-import styles from '../../../styles/addmovie.module.css'
+// import styles from '../../../styles/addmovie.module.css'
+import MovieForm from '../movie-form'
 
 export default function createMovie(){
 
-    const [ fileBlob, setFileBlob] = useState("");
+    /* const [ fileBlob, setFileBlob ] = useState("");
     const [ formData, setFormData ] = useState({
         title: '',
         published_year: '',
@@ -59,82 +60,97 @@ export default function createMovie(){
                 setFileBlob("");
             })
             .catch((error) => console.error(error));
-    }
+    } */
 
     return(
-        <form method="post" 
-            onSubmit={(e) => {
-                handleSubmit(e)
-            }}
-            encType='multipart/form-data'
-        >
-            <main className={`vh-100 d-flex justify-content-center align-items-center ${cStyles['page-background-color']} ${styles['main-div']}`}>
-                {!formData.file ? (<div 
-                    className={`${styles["upload-css"]}`}
-                    onDragOver={(e) => {
-                        e.preventDefault();
-                        // setFileEnter(true);
-                    }}
-                    onDragLeave={() => {
-                        // setFileEnter(false)
-                    }}
-                    onDrop={(e) => {
-                        e.preventDefault();
-                        if (e.dataTransfer.items) {
-                            let item = e.dataTransfer.items[0]
-                            if (item.kind === "file") {
-                                const file = item.getAsFile();
-                                if (file) {
-                                    let blobUrl = URL.createObjectURL(file);
-                                    setFileBlob(blobUrl);
-                                }
-                            }
-                        }
-                    }}
-                >
-                    <label htmlFor='file'>Drop an image here</label>                
-                    <input
-                        id="file"
-                        type="file"
-                        className="d-none"
-                        onChange={(e) => {
-                            handleFileChange(e)
-                        }}
-                    />
-                </div>) : (
-                    <object 
-                        className={`${styles["upload-css"]}`}
-                        data={fileBlob}
-                        type="image/jpeg"
-                    ></object>
-                )}
-                <div className={`p-3 ${styles["form-css"]}`}>
+        // <form method="post" 
+        //     onSubmit={(e) => {
+        //         handleSubmit(e)
+        //     }}
+        //     encType='multipart/form-data'
+        // >
+        //     <main className={`vh-100 d-flex justify-content-center align-items-center ${cStyles['page-background-color']} ${styles['main-div']}`}>
+        //         {!formData.file ? (<div 
+        //             className={`${styles["upload-div"]} ${styles["upload-css"]}`}
+        //             onDragOver={(e) => {
+        //                 e.preventDefault();
+        //             }}
+        //             onDragLeave={() => {
+        //             }}
+        //             onDrop={(e) => {
+        //                 e.preventDefault();
+        //                 if (e.dataTransfer.items) {
+        //                     let item = e.dataTransfer.items[0]
+        //                     if (item.kind === "file") {
+        //                         const file = item.getAsFile();
+        //                         if (file) {
+        //                             let blobUrl = URL.createObjectURL(file);
+        //                             // console.log("From Drop")
+        //                             // console.log(blobUrl)
+        //                             setFileBlob(blobUrl);
+        //                             setFormData((prevData) => ({
+        //                                 ...prevData,
+        //                                 file,
+        //                             }));
+        //                         }
+        //                     }
+        //                 }
+        //             }}
+        //         >
+        //             <label htmlFor='file'>Drop an image here</label>                
+        //             <input
+        //                 id="file"
+        //                 type="file"
+        //                 className="d-none"
+        //                 onChange={(e) => {
+        //                     handleFileChange(e)
+        //                 }}
+        //             />
+        //         </div>) : (
+        //             <div className={`d-flex flex-column align-items-center gap-2 ${styles['upload-div']}`}>
+        //                 <object 
+        //                     className={`${styles["image-css"]}`}
+        //                     data={fileBlob}
+        //                     type="image/jpeg"
+        //                 ></object>
+        //                 <button className={`${styles['cancel-btn']}`}>Reset</button>
+        //             </div>
+        //         )}
+        //         <div className={`p-3 ${styles["form-css"]}`}>
                     
-                        <div className="mb-3">
-                            <input 
-                                name='title'
-                                value={formData.title}
-                                className={`form-control ${styles["input-css"]} ${styles["input-css-title"]}`} 
-                                placeholder="Title" 
-                                onChange={(e) => handleChange(e)} />
-                        </div>
+        //                 <div className="mb-3">
+        //                     <input 
+        //                         name='title'
+        //                         value={formData.title}
+        //                         className={`form-control ${styles["input-css"]} ${styles["input-css-title"]}`} 
+        //                         placeholder="Title" 
+        //                         onChange={(e) => handleChange(e)} />
+        //                 </div>
             
-                        <div className="mb-3">
-                            <input
-                                name='published_year'
-                                value={formData.publishedYear}
-                                className={`form-control ${styles["input-css"]} ${styles["input-css-publishedyear"]}`}
-                                placeholder='Published Year'
-                                onChange={(e) => handleChange(e)} />
-                        </div>
-                        <div className={`mb-3 ${cStyles["body-regular"]} ${styles['btn-container']}`}>
-                            <button className={`btn ${styles["cancel-btn"]}`}>Cancel</button>
-                            <button type="submit" className={`btn ${styles["submit-btn"]}`}>Submit</button>
-                        </div>
-                    {/* </form> */}
-                </div>
-            </main>
-        </form>
+        //                 <div className="mb-3">
+        //                     <input
+        //                         name='published_year'
+        //                         value={formData.published_year}
+        //                         className={`form-control ${styles["input-css"]} ${styles["input-css-publishedyear"]}`}
+        //                         placeholder='Published Year'
+        //                         onChange={(e) => handleChange(e)} />
+        //                 </div>
+        //                 <div className={`mb-3 ${cStyles["body-regular"]} ${styles['btn-container']}`}>
+        //                     <button className={`btn ${styles["cancel-btn"]}`}>Cancel</button>
+        //                     <button type="submit" className={`btn ${styles["submit-btn"]}`}>Submit</button>
+        //                 </div>
+        //             {/* </form> */}
+        //         </div>
+        //     </main>
+        // </form>
+        <>
+            {/* <main className={`d-flex justify-content-center flex-column gap-5 ${cStyles['page-background-color']}`} style={{
+                backgroundColor: "red"
+            }}> */}
+                {/* <div className={`${cStyles["h2-css"]} ${cStyles["page-background-color"]}`}>Create a new movie</div> */}
+                <MovieForm pageName='create'/>
+            {/* </main> */}
+        </>
     )
 }
 

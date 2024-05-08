@@ -78,17 +78,17 @@ export default function Signin() {
                     </div>
 
                     <div className={`mb-3 ${styles["wrapper"]} ${cStyles["body-small"]}`}>
-                        <label>
+                        <label className={`d-flex justify-content-center align-items-center gap-1 ${styles["container"]}`}>
                             <input 
                                 type="checkbox" 
                                 value="remember-me" 
-                                className={styles["checkbox-css"]} />
-                                <span className="checkmark"></span> Remember me
+                                /* className={styles["checkbox-css"]} */ />
+                                <span className={styles["checkmark"]}></span> Remember me
                         </label>
                     </div>
 
-                    <div className={`mb-3 ${styles["wrapper"]} ${cStyles["body-regular"]}`}>
-                        <button type="submit" className={`btn ${styles["login-btn"]}`}>Login</button>
+                    <div className={`mb-3 ${styles["wrapper"]}`}>
+                        <button type="submit" className={`btn ${styles["login-btn"]} ${cStyles["body-regular"]}`}>Login</button>
                     </div>
                 </form>
             </div>
