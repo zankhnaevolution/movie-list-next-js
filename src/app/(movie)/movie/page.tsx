@@ -9,6 +9,7 @@ import cStyles from '../../styles/common.module.css';
 import Loading from "./loading";
 import EmptyState from "./empty-state";
 import apiCall from "@/app/utils/apiCall";
+import Head from "next/head";
 
 export default () => {
     const [ isFetching, setIsFetching ] = useState(true);
@@ -81,6 +82,8 @@ export default () => {
         getMovies({ page: pageNumber })
     }
 
+    console.log("Fetching") // Called twice
+
     useEffect(() => {
         getMovies({ page: currentPage });
     }, [])
@@ -92,28 +95,32 @@ export default () => {
 
     return(
         <>
+            <Head>
+                <title>Zankhna</title>
+            </Head>
             { isFetching ? (
                 <Loading/>
             ) :  movies.length > 0 ? 
                 ( 
                     <main className={`d-flex justify-content-center flex-column gap-5 ${cStyles['page-background-color']} ${styles['movie-list-main-css']}`}>
 
-                        <div className={`w-100 d-flex flex-row align-items-center justify-content-between ${cStyles["h2-css"]}`}>
+                        <div className={`w-100 d-flex flex-row align-items-center justify-content-between`}>
                             <div className={`d-flex flex-row align-items-center gap-2`}>
-                                <div className={cStyles["h2-css"]}>My movies</div> 
+                                <div className={`${styles["heading-css"]}`}>My movies</div> 
                                 <Link href={'movie/create'}><i className="bi bi-plus-circle" style={{
                                     fontSize: "1.6rem"
                                 }}></i></Link>
                             </div>
                             <div className={`d-flex align-items-center gap-2 ${styles['logout-css']}`} onClick={() => handleLogout()}>
-                                <div className={cStyles["body-regular"]}>Logout</div>
+                                <div className={`cStyles["body-regular"] ${styles['logout-text']}`}>Logout</div>
                                 <i className={`bi bi-box-arrow-right`} style={{
                                     fontSize: "1.3rem"
                                 }}></i>
                             </div>
                         </div>
 
-                        <div className={`row row-cols-3 row-cols-md-4 ${styles['movies-div']}`}>
+                        <div className={`${styles['movies-div']}`}>
+                        {/* <div className={`row row-cols-sm-2 ${styles['movies-div']}`}> */}
 
                             { movies.map((movie : {
                                 _id: string,
@@ -121,14 +128,14 @@ export default () => {
                                 movie_published_year: number
                             }) => (
                                     
-                                <Link href={`/movie/${movie._id}`} className={`col mb-4 ml-4 text-decoration-none ${styles['movie-div']}`} key={movie._id}>
+                                <Link href={`/movie/${movie._id}`} className={`col text-decoration-none ${styles['movie-div']}`} key={movie._id}>
                                     <div className={`card ${styles['movie-div-card']}`}>
                                         <img 
                                             className={`card-img-top ${styles['movie-img']}`}
                                             src={`http://localhost:3000/uploads/${movie.movie_img}`}
                                             alt="..."/>
                                         <div className={`card-body ${styles['movie-div-card']}}`}>
-                                            <h5 className={`card-title ${cStyles['body-large']}`} style={{color: "white"}}>{movie.movie_title}</h5>
+                                            <h5 className={`card-title ${styles["movie-title-css"]}`} style={{color: "white"}}>{movie.movie_title}</h5>
                                             <p className={`card-text ${cStyles['body-small']}`}>{movie.movie_published_year}</p>
                                         </div>
                                     </div>

@@ -143,17 +143,13 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                 onSubmit={handleSubmit(handleFormSubmit)}
                 encType='multipart/form-data'
             >
-                <main className={`vh-100 d-flex flex-column justify-content-center gap-5 ${cStyles['page-background-color']}`}>
+                <main className={`vh-100 ${styles['main-css']} ${cStyles['page-background-color']}`}>
                     
-                    <div className={`${cStyles["h2-css"]} ${cStyles["page-background-color"]}`} style={{
-                        paddingLeft: "17%"
-                    }}>
+                    <div className={`${cStyles["h2-css"]} ${styles["heading-css"]}`}>
                         { pageName === "create" ? 'Create a new movie' : 'Edit' }
                     </div>
 
-                    <div className="d-flex w-100 align-items-center justify-content-center" style={{
-                        gap: '8%'
-                    }}>
+                    <div className={styles['form-main-css']}>
 
                         { !formData.img && formData.img_url == '' ? (
                                 <div 
@@ -171,8 +167,6 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                                 const file = item.getAsFile();
                                                 if (file) {
                                                     let blobUrl = URL.createObjectURL(file);
-                                                    // console.log("From Drop")
-                                                    // console.log(blobUrl)
                                                     setFileBlob(blobUrl);
                                                     setFormData((prevData) => ({
                                                         ...prevData,
@@ -215,35 +209,40 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                             )
                         }
     
-                        <div className={`${styles["form-css"]}`}>                    
-                            <div className="mb-3">
-                                <input 
-                                    { ...register('title', { 
-                                        required: "Movie title is required" 
-                                    } )}
-                                    value={formData.title}
-                                    className={`form-control ${styles["input-css"]} ${styles["input-css-title"]} ${errors.title?.message ? styles['input-css-error'] : ''}`} 
-                                    placeholder="Title" 
-                                    onChange={(e) => handleChange(e)} />
+                        <div className={`${styles["form-css"]}`}>
+                            
+                            <div className="wrapper">
 
-                                <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message }</p>
-                            </div>
-                
-                            <div className="mb-3">
-                                <input
-                                    { ...register('published_year', { 
-                                        required: "Movie published year field is required",
-                                        pattern: {
-                                            value: /^[0-9]{4}$/,
-                                            message: 'Please enter valid published year',
-                                        } 
-                                    } ) }
-                                    value={formData.published_year}
-                                    className={`form-control ${styles["input-css"]} ${styles["input-css-publishedyear"]} ${errors.published_year?.message ? styles['input-css-error'] : ''}`}
-                                    placeholder='Published Year'
-                                    onChange={(e) => handleChange(e)} />
+                                <div className="mb-3">
+                                    <input 
+                                        { ...register('title', { 
+                                            required: "Movie title is required" 
+                                        } )}
+                                        value={formData.title}
+                                        className={`form-control ${styles["input-css"]} ${styles["input-css-title"]} ${errors.title?.message ? styles['input-css-error'] : ''}`} 
+                                        placeholder="Title" 
+                                        onChange={(e) => handleChange(e)} />
 
-                                <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message }</p>
+                                </div>
+                    
+                                <div className="mb-3">
+                                    <input
+                                        { ...register('published_year', { 
+                                            required: "Movie published year field is required",
+                                            pattern: {
+                                                value: /^[0-9]{4}$/,
+                                                message: 'Please enter valid published year',
+                                            } 
+                                        } ) }
+                                        value={formData.published_year}
+                                        className={`form-control ${styles["input-css"]} ${styles["input-css-publishedyear"]} ${errors.published_year?.message ? styles['input-css-error'] : ''}`}
+                                        placeholder='Published Year'
+                                        onChange={(e) => handleChange(e)} />
+
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message }</p>
+                                </div>
+
                             </div>
                             
                             <div className={`mb-3 ${styles['btn-container']}`}>

@@ -1,19 +1,26 @@
-.upload-div{
-    /* border-radius: 10px;
-    border-style: dotted; */
-    width: 30%;
-    height: 330px;
-    /* display: flex;
+.main-css{
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    gap: 30px;
+}
+.heading-css{
+    padding-left: 17%;
+}
+.form-main-css{
+    display: flex;
     align-items: center;
-    background-color: #224957;
-    opacity: 0.8; */
+    justify-content: center;
+    gap: 8%;
+}
+.upload-div{
+    width: 30%;
+    /* height: 330px; */
+    aspect-ratio: 1/1;
 }
 .upload-css{
     border-radius: 10px;
     border-style: dotted;
-    /* width: 25%;
-    height: 250px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,6 +47,7 @@
     opacity: 0.8;
 } */
 .form-css{
+    order: 2;
     max-width: 50%;
     height: 100%;
     /* min-height: 100%; */
@@ -116,4 +124,64 @@ button.submit-btn:hover{
 .reset-cancel-btn:hover{
     background-color: white !important;
     color: #093545;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 600px) {
+
+    .main-css{
+        padding: 5%;
+    }
+
+    .heading-css{
+        padding: 0%;
+        font-size: 29px !important;
+        font-weight: 600 !important;
+        line-height: 40px !important;
+        align-self: flex-start;
+    }
+
+    .form-main-css{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .upload-div{
+        /* order: 2; */
+        width: 100%;
+        height: 150%;
+    }
+
+    .upload-css{
+        border-radius: 10px;
+        border-style: dotted;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #224957;
+        opacity: 0.8;
+    }
+
+    .form-css{
+        /* order: 1; */
+        min-width: 100%;
+        height: 100%;
+    }
+
+    .input-css-title{
+        width: 100%;
+        height: 45px;
+        border-radius: 10px;
+        opacity: 0px;
+    }
+    .input-css-publishedyear{
+        width: 100%;
+        height: 45px;
+        gap: 0px;
+        border-radius: 10px;
+        opacity: 0px;
+    }
 }
