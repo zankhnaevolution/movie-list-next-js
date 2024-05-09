@@ -1,8 +1,8 @@
 .upload-div{
     /* border-radius: 10px;
     border-style: dotted; */
-    width: 25%;
-    height: 250px;
+    width: 30%;
+    height: 330px;
     /* display: flex;
     justify-content: center;
     align-items: center;
@@ -41,6 +41,7 @@
 } */
 .form-css{
     max-width: 50%;
+    height: 100%;
     /* min-height: 100%; */
 }
 .input-css{

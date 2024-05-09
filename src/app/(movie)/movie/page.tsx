@@ -1,39 +1,60 @@
 'use client'
 
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { notFound } from "next/navigation";
 import styles from '../../styles/movielist.module.css'
 import cStyles from '../../styles/common.module.css';
 import Loading from "./loading";
 import EmptyState from "./empty-state";
+import apiCall from "@/app/utils/apiCall";
 
-export default function Auth(){
+export default () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ movies, setMovies ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState(1)
     const [ prevDisabled, setPrevDisabled ] = useState(true);
     const [ nextDisabled, setNextDisabled ] = useState(false);
     const [ totalPages, setTotalPages ] = useState(0);
-    
-    function fetchMovies({ page }: { page: number }){
-        fetch(
-            `http://localhost:3000/movie?page=${page}`, 
-            {
-                headers: {
-                    method: 'GET',
-                    "Authorization": `${Cookies.get('Authorization')}`
+    const router = useRouter();
+
+    async function getMovies({ page }: { page: number }){
+        /* try{
+            const response = await fetch(
+                `http://localhost:3000/movie?page=${page}`, 
+                {
+                    headers: {
+                        method: 'GET',
+                        "Authorization": `${Cookies.get('Authorization')}`
+                    }
                 }
+            )
+            if(!response.ok){
+                throw new Error(response.status);
             }
-        )
-            .then((response) => response.json())
-            .then((result) => {
-                setMovies(result.movies)
-                setTotalPages(Math.ceil(parseInt(result.totalMovies)/8));
-                setIsFetching(false);
-            })
-            .catch((error) => console.error(error));
+            const result = await response.json();
+            setMovies(result.movies)
+            setTotalPages(Math.ceil(parseInt(result.totalMovies)/8));
+            setIsFetching(false);
+        }catch(error){
+            if(error.message == 401){
+                console.log(Cookies.get('refresh_token'))
+                let token = await refreshToken(Cookies.get('refresh_token'))
+                console.log({token})
+                console.log("Handle Unauthorized Error")
+            }
+        } */
+
+        try{
+            const result = await apiCall(`/movie?page=${page}`, 'GET', {}, {})
+            setMovies(result.movies)
+            setTotalPages(Math.ceil(parseInt(result.totalMovies)/8));
+            setIsFetching(false);
+        }catch(error){
+            console.log("Movie List")
+            console.log(error)
+        }
     }
 
     function handlePaginationClick(page: string | number){
@@ -57,12 +78,17 @@ export default function Auth(){
         pageNumber === totalPages ? setNextDisabled(true) : setNextDisabled(false);
 
         setCurrentPage(pageNumber);
-        fetchMovies({ page: pageNumber })
+        getMovies({ page: pageNumber })
     }
 
     useEffect(() => {
-        fetchMovies({ page: currentPage });
+        getMovies({ page: currentPage });
     }, [])
+
+    const handleLogout = () => {
+        Cookies.remove('Authorization');
+        router.push('/signin');
+    }
 
     return(
         <>
@@ -75,9 +101,11 @@ export default function Auth(){
                         <div className={`w-100 d-flex flex-row align-items-center justify-content-between ${cStyles["h2-css"]}`}>
                             <div className={`d-flex flex-row align-items-center gap-2`}>
                                 <div className={cStyles["h2-css"]}>My movies</div> 
-                                <Link href={'movie/create'} className={`${styles["create-movie-btn"]} ${cStyles["body-regular"]}`}>+</Link>
+                                <Link href={'movie/create'}><i className="bi bi-plus-circle" style={{
+                                    fontSize: "1.6rem"
+                                }}></i></Link>
                             </div>
-                            <div className="d-flex align-items-center gap-2">
+                            <div className={`d-flex align-items-center gap-2 ${styles['logout-css']}`} onClick={() => handleLogout()}>
                                 <div className={cStyles["body-regular"]}>Logout</div>
                                 <i className={`bi bi-box-arrow-right`} style={{
                                     fontSize: "1.3rem"
@@ -115,20 +143,13 @@ export default function Auth(){
                                 <span 
                                     className={`${styles["movie-nav-element"]} ${ prevDisabled ? styles['pagination-disabled'] : '' }`}
                                     onClick={() => handlePaginationClick('prev')}
-                                >Prev</span>                        
-                                {/* <div 
-                                    className={`${styles["movie-nav-element"]} ${styles["movie-nav-square"]} ${ currentPage === 1 ? styles["movie-nav-square-active"]: '' }`}
-                                    onClick={() => handlePaginationClick('1')}
-                                >1</div>
-                                <div 
-                                    className={`${styles["movie-nav-element"]} ${styles["movie-nav-square"]} ${ currentPage === 2 ? styles["movie-nav-square-active"]: '' }`}
-                                    onClick={() => handlePaginationClick('2')}
-                                >2</div> */}
+                                >Prev</span>
 
                                 {[...Array(totalPages)].map((d, i) => 
                                     <div 
                                         className={`${styles["movie-nav-element"]} ${styles["movie-nav-square"]} ${ currentPage === (i+1) ? styles["movie-nav-square-active"]: '' }`}
                                         onClick={() => handlePaginationClick((i+1))}
+                                        key={i}
                                     >{i+1}</div>
                                 )}
 

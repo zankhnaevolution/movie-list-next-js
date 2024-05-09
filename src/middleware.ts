@@ -2,8 +2,8 @@ import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export default function middleware(request: NextRequest){
-    let cookie = request.cookies.get('Authorization')
-    if(cookie?.value){
+    let authorization = request.cookies.get('Authorization')
+    if(authorization?.value){
         return NextResponse.next();
     }else{
         return NextResponse.redirect(new URL('/signin', request.url));

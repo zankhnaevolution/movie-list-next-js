@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..600;1,100..600&display=swap');
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -96,7 +98,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Montserrat', sans-serif;
 }
 
 a {
@@ -109,5 +111,3 @@ a {
     color-scheme: dark;
   }
 }
-
-@import url('https://fonts.googleapis.com/css2?  family=Montserrat:ital,wght@0,100;0,200;1,100;1,200&display=swap');

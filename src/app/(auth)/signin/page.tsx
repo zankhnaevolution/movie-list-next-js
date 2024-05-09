@@ -5,20 +5,22 @@ import { FormEvent, useState } from "react"
 import Cookies from 'js-cookie';
 import styles from '../../styles/signin.module.css'
 import cStyles from '../../styles/common.module.css';
+import toast from "react-hot-toast";
 
-export default function Signin() {
+export default () => {
 
     let [ email, setEmail ] = useState("zankhna.r@evolutioncloud.in");
     let [ password, setPassword ] = useState("12345678");
-    let [ tryAgainMessage, setTryAgainMessage ] = useState(false);
     const router = useRouter();
+
+    const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
     function handleSubmit(e: FormEvent){
         e.preventDefault();
 
         if(email && password){
             fetch(
-                "http://localhost:3000/signin", 
+                `${NEXT_PUBLIC_BACKEND_API_URL}/signin`, 
                 {
                     method: "POST",
                     headers: {
@@ -31,26 +33,25 @@ export default function Signin() {
             )
                 .then(async(response) => {
                     if(!response.ok){
-                        throw new Error('Try Again');
+                        const error = await response.json()
+                        if(error?.message){
+                            toast.error(error.message)
+                        }else{
+                            throw new Error();
+                        }
                     }
                     return response.json();
                 })
                 .then((result) => {    
-                    Cookies.set('Authorization', `Bearer ${result.access_token}`);    
+                    Cookies.set('Authorization', `Bearer ${result.access_token}`);
+                    Cookies.set('refresh_token', `${result.refresh_token}`);
                     router.push('/movie/')
                 })
-                .catch((error) => {
-                    console.log(error)
+                .catch((error) => {                    
                     setEmail('')
                     setPassword('')
-                    setTryAgainMessage(true);
                 });
         }
-
-    }
-
-    function handleKeyDown(){
-        setTryAgainMessage(false);
     }
 
     return (
@@ -63,8 +64,7 @@ export default function Signin() {
                             value={email}
                             className={`form-control ${styles["input-css"]}`} 
                             placeholder="Email" 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            onKeyDown={() => handleKeyDown()} />
+                            onChange={(e) => setEmail(e.target.value)} />
                     </div>
         
                     <div className="mb-3">
@@ -73,8 +73,7 @@ export default function Signin() {
                             className={`form-control ${styles["input-css"]}`}
                             placeholder="Password" 
                             type="password"
-                            onChange={(e) => setPassword(e.target.value)} 
-                            onKeyDown={() => handleKeyDown()} />
+                            onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
                     <div className={`mb-3 ${styles["wrapper"]} ${cStyles["body-small"]}`}>

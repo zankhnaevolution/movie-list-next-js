@@ -1,8 +1,8 @@
 'use client'
 
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import MovieForm from "../movie-form";
+import apiCall from "@/app/utils/apiCall";
 
 export default function SingleFunction({ params }: { params: { id: string }}){
 
@@ -13,25 +13,18 @@ export default function SingleFunction({ params }: { params: { id: string }}){
         img_url: ''
     })
     const [ objectReady, setObjectReady ] = useState(false);
-    const [ fileBlob, setFileBlob ] = useState("");
+
+    const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
     
     useEffect(() => {
-        fetch(
-            `http://localhost:3000/movie/${params.id}`, 
-            {
-                method: 'GET',
-                headers: {
-                    "Authorization": `${Cookies.get('Authorization')}`
-                },
-            }
-        )
-            .then((response) => response.json())
+
+        apiCall(`/movie/${params.id}`, 'GET', {}, {})
             .then((result) => {
                 setMovieObject({
                     title: result.movie_title,
                     published_year: result.movie_published_year,
                     img: null,
-                    img_url: `http://localhost:3000/uploads/` + result.movie_img
+                    img_url: `${NEXT_PUBLIC_BACKEND_API_URL}/uploads/${result.movie_img}`
                 })
                 setObjectReady(true);
             })

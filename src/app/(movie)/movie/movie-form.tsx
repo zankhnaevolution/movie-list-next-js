@@ -1,16 +1,17 @@
 'use client'
 
 import { useState } from "react";
-import Cookies from 'js-cookie'
 import { useForm } from "react-hook-form"
 import cStyles from '../../styles/common.module.css'
-import styles from '../../styles/addmovie.module.css'
+import styles from '../../styles/add_update_movie.module.css'
 import Link from "next/link";
+import apiCall from "@/app/utils/apiCall";
+import toast from "react-hot-toast";
 
 export default function MovieForm({ pageName, movieId, movieObject = { title: '', published_year: '', img: null, img_url: '' } }: { pageName: string, movieId: string, movieObject: {
     title: string,
     published_year: string,
-    img: string | null
+    img: string | null | Blob
     img_url: string
 } }){
 
@@ -20,18 +21,41 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
     const [ formData, setFormData ] = useState(movieObject)
 
     const handleFormSubmit = () => {
-        // e.preventDefault();
-        pageName === 'create' ? handlePost() : handlePatch();
+        const apiData = new FormData();
+        apiData.append("title", formData.title);
+        apiData.append("published_year", formData.published_year);
+        apiData.append("img", formData.img);
+
+        pageName === 'create' ? handlePost(apiData) : handlePatch(apiData);
     }
 
-    const handlePost = () => {
+    const handlePost = async (apiData: any) => {
 
-        const formdata = new FormData();
-        formdata.append("title", formData.title);
-        formdata.append("published_year", formData.published_year);
-        formdata.append("img", formData.img);
+        // const postFormdata = new FormData();
+        // postFormdata.append("title", formData.title);
+        // postFormdata.append("published_year", formData.published_year);
+        // postFormdata.append("img", formData.img);
 
-        fetch(
+        try{
+            await apiCall('/movie', 'POST', apiData, {});
+
+            toast.success('Wohooo, Movie created!!!');
+
+            setFormData({
+                title: "",
+                published_year: "",
+                img: null,
+                img_url: ''
+            });
+            setFileBlob("");
+        }catch(error){
+            if(error.response && error.response.data && error.response.data.message){
+                toast.error(error.response.data.message);
+            }else{
+                toast.error("Oops, Something went wrong!!!");
+            }
+        }
+        /* fetch(
             "http://localhost:3000/movie", 
             {
                 method: 'POST',
@@ -50,29 +74,40 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                 });
                 setFileBlob("");
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error(error)); */
     }
 
-    const handlePatch = () => {
-        const formdata = new FormData();
-        formdata.append("title", formData.title);
-        formdata.append("published_year", formData.published_year);
-        formdata.append("img", formData.img);
+    const handlePatch = async (apiData: any) => {
+        // const putFormData = new FormData();
+        // putFormData.append("title", formData.title);
+        // putFormData.append("published_year", formData.published_year);
+        // putFormData.append("img", formData.img);
+
+        try{
+            await apiCall(`/movie/${movieId}`, 'PATCH', apiData, {});
+            toast.success('Wohooo, Movie updated!!!')
+        }catch(error){
+            if(error.response && error.response.data && error.response.data.message){
+                toast.error(error.response.data.message);
+            }else{
+                toast.error("Oops, Something went wrong!!!");
+            }
+        }
  
-        fetch(
+       /*  fetch(
             `http://localhost:3000/movie/${movieId}`, 
             {
                 method: 'PATCH',
                 headers: {
                     "Authorization": Cookies.get('Authorization')
                 },
-                body: formdata,
+                body: putFormData,
             }
         )
             .then((response) => response.json())
             .then((result) => {
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error(error)); */
     }
 
     const handleChange = (e) => {
@@ -105,21 +140,20 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
     return(
         <>
             <form method="post" 
-                // onSubmit={(e) => {
-                    // handleSubmit(e)
-                // }}
                 onSubmit={handleSubmit(handleFormSubmit)}
                 encType='multipart/form-data'
             >
-                <main className={`vh-100 d-flex flex-column justify-content-center align-items- gap-5 ${cStyles['page-background-color']} ${styles['main-div']}`}>
+                <main className={`vh-100 d-flex flex-column justify-content-center gap-5 ${cStyles['page-background-color']}`}>
                     
                     <div className={`${cStyles["h2-css"]} ${cStyles["page-background-color"]}`} style={{
-                        paddingLeft: "20%"
+                        paddingLeft: "17%"
                     }}>
                         { pageName === "create" ? 'Create a new movie' : 'Edit' }
                     </div>
 
-                    <div className="d-flex w-100 align-items-center justify-content-center gap-5">
+                    <div className="d-flex w-100 align-items-center justify-content-center" style={{
+                        gap: '8%'
+                    }}>
 
                         { !formData.img && formData.img_url == '' ? (
                                 <div 
@@ -181,7 +215,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                             )
                         }
     
-                        <div className={`p-3 ${styles["form-css"]}`}>                    
+                        <div className={`${styles["form-css"]}`}>                    
                             <div className="mb-3">
                                 <input 
                                     { ...register('title', { 
