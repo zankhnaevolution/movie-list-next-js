@@ -37,3 +37,12 @@
     font-weight: 700;
     line-height: 24px;
 }
+
+@media only screen and (max-width: 600px) {    
+    .h2-css{
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 40px;
+        text-align: center;
+    }
+}

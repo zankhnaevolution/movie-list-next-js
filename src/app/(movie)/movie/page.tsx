@@ -11,6 +11,8 @@ import EmptyState from "./empty-state";
 import apiCall from "@/app/utils/apiCall";
 import Head from "next/head";
 
+const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+
 export default () => {
     const [ isFetching, setIsFetching ] = useState(true);
     const [ movies, setMovies ] = useState([]);
@@ -125,14 +127,15 @@ export default () => {
                             { movies.map((movie : {
                                 _id: string,
                                 movie_title: string,
-                                movie_published_year: number
+                                movie_published_year: number,
+                                movie_img: string
                             }) => (
                                     
                                 <Link href={`/movie/${movie._id}`} className={`col text-decoration-none ${styles['movie-div']}`} key={movie._id}>
                                     <div className={`card ${styles['movie-div-card']}`}>
                                         <img 
                                             className={`card-img-top ${styles['movie-img']}`}
-                                            src={`http://localhost:3000/uploads/${movie.movie_img}`}
+                                            src={`${NEXT_PUBLIC_BACKEND_API_URL}/uploads/${movie.movie_img}`}
                                             alt="..."/>
                                         <div className={`card-body ${styles['movie-div-card']}}`}>
                                             <h5 className={`card-title ${styles["movie-title-css"]}`} style={{color: "white"}}>{movie.movie_title}</h5>
