@@ -63,14 +63,12 @@
     height: 45px;
     gap: 0px;
     border-radius: 10px;
-    opacity: 0px;
 }
 .input-css-publishedyear{
     width: 216px;
     height: 45px;
     gap: 0px;
     border-radius: 10px;
-    opacity: 0px;
 }
 .input-css::placeholder {
     color: white;
@@ -175,13 +173,11 @@ button.submit-btn:hover{
         width: 100%;
         height: 45px;
         border-radius: 10px;
-        opacity: 0px;
     }
     .input-css-publishedyear{
         width: 100%;
         height: 45px;
         gap: 0px;
         border-radius: 10px;
-        opacity: 0px;
     }
 }
