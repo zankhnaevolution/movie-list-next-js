@@ -9,7 +9,7 @@ export default function SingleFunction({ params }: { params: { id: string }}){
     const [ movieObject, setMovieObject ] = useState({
         title: '',
         published_year: '',
-        img: null,
+        img: '',
         img_url: ''
     })
     const [ objectReady, setObjectReady ] = useState(false);
@@ -23,7 +23,7 @@ export default function SingleFunction({ params }: { params: { id: string }}){
                 setMovieObject({
                     title: result.movie_title,
                     published_year: result.movie_published_year,
-                    img: null,
+                    img: '',
                     img_url: `${NEXT_PUBLIC_BACKEND_API_URL}/uploads/${result.movie_img}`
                 })
                 setObjectReady(true);
