@@ -9,16 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mui/material": "^5.15.17",
+    "@nextui-org/spinner": "^2.0.28",
     "@types/js-cookie": "^3.0.6",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "js-cookie": "^3.0.5",
     "next": "14.2.3",
+    "nextjs-toploader": "^1.6.12",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "react-loader-spinner": "^6.1.6"
   },
   "devDependencies": {
     "@types/node": "^20",

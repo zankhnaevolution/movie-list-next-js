@@ -69,6 +69,7 @@
 .input-css:focus{
     color: white;
     outline: none;
+    box-shadow: none;
 }
 button.login-btn{
     width: 100%;
@@ -79,4 +80,19 @@ button.login-btn{
 }
 .wrapper {
     text-align: center;
+}
+.password-div{
+    width: 100%;
+    position: relative;
+}
+.eye-css{
+    z-index: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding-right: 10px;
 }

@@ -80,14 +80,7 @@
 .input-css:focus{
     color: white;
     outline: none;
-    /* color: #224957;
-    background-color: white;
-    border: 1px solid #224957;
-    border-color: #224957;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #224957;
-    outline: 0 none;
-    border-color: #224957;
-    box-shadow: 0 0 0 0.2rem #224957; */
+    box-shadow: none;
 }
 .input-css-error{
     border-color: #EB5757 !important;

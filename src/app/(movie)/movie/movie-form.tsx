@@ -8,6 +8,11 @@ import Link from "next/link";
 import apiCall from "@/app/utils/apiCall";
 import toast from "react-hot-toast";
 
+type Inputs = {
+    title: string,
+    published_year: string
+}
+
 export default function MovieForm({ pageName, movieId, movieObject = { title: '', published_year: '', img: '', img_url: '' } }: { pageName: string, movieId: string | undefined, movieObject: {
     title: string,
     published_year: string,
@@ -15,7 +20,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
     img_url: string
 } | undefined }){
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
     const [ fileBlob, setFileBlob ] = useState("");
     const [ formData, setFormData ] = useState(movieObject)
@@ -30,11 +35,6 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
     }
 
     const handlePost = async (apiData: any) => {
-
-        // const postFormdata = new FormData();
-        // postFormdata.append("title", formData.title);
-        // postFormdata.append("published_year", formData.published_year);
-        // postFormdata.append("img", formData.img);
 
         try{
             await apiCall('/movie', 'POST', apiData, {});
@@ -55,33 +55,9 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                 toast.error("Oops, Something went wrong!!!");
             }
         }
-        /* fetch(
-            "http://localhost:3000/movie", 
-            {
-                method: 'POST',
-                headers: {
-                    "Authorization": Cookies.get('Authorization')
-                },
-                body: formdata,
-            }
-        )
-            .then((response) => response.text())
-            .then((result) => {
-                setFormData({
-                    title: "",
-                    published_year: "",
-                    img: null
-                });
-                setFileBlob("");
-            })
-            .catch((error) => console.error(error)); */
     }
 
     const handlePatch = async (apiData: any) => {
-        // const putFormData = new FormData();
-        // putFormData.append("title", formData.title);
-        // putFormData.append("published_year", formData.published_year);
-        // putFormData.append("img", formData.img);
 
         try{
             await apiCall(`/movie/${movieId}`, 'PATCH', apiData, {});
@@ -93,21 +69,6 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                 toast.error("Oops, Something went wrong!!!");
             }
         }
- 
-       /*  fetch(
-            `http://localhost:3000/movie/${movieId}`, 
-            {
-                method: 'PATCH',
-                headers: {
-                    "Authorization": Cookies.get('Authorization')
-                },
-                body: putFormData,
-            }
-        )
-            .then((response) => response.json())
-            .then((result) => {
-            })
-            .catch((error) => console.error(error)); */
     }
 
     const handleChange = (e: any) => {
@@ -223,7 +184,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                         placeholder="Title" 
                                         onChange={(e) => handleChange(e)} />
 
-                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message && '' }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message }</p>
                                 </div>
                     
                                 <div className="mb-3">
@@ -240,7 +201,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                         placeholder='Published Year'
                                         onChange={(e) => handleChange(e)} />
 
-                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message && '' }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message }</p>
                                 </div>
 
                             </div>

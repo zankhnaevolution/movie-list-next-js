@@ -1,8 +1,8 @@
 'use client'
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import styles from '../../styles/movielist.module.css'
 import cStyles from '../../styles/common.module.css';
@@ -14,6 +14,10 @@ import Head from "next/head";
 const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 export default function MovieList (){
+
+    // const searchParams = useSearchParams();
+    // const pageNumberFromSearch = parseInt(searchParams.get("page") || "1");
+
     const [ isFetching, setIsFetching ] = useState(true);
     const [ movies, setMovies ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState(1)
@@ -23,55 +27,29 @@ export default function MovieList (){
     const router = useRouter();
 
     async function getMovies({ page }: { page: number }){
-        /* try{
-            const response = await fetch(
-                `http://localhost:3000/movie?page=${page}`, 
-                {
-                    headers: {
-                        method: 'GET',
-                        "Authorization": `${Cookies.get('Authorization')}`
-                    }
-                }
-            )
-            if(!response.ok){
-                throw new Error(response.status);
-            }
-            const result = await response.json();
-            setMovies(result.movies)
-            setTotalPages(Math.ceil(parseInt(result.totalMovies)/8));
-            setIsFetching(false);
-        }catch(error){
-            if(error.message == 401){
-                console.log(Cookies.get('refresh_token'))
-                let token = await refreshToken(Cookies.get('refresh_token'))
-                console.log({token})
-                console.log("Handle Unauthorized Error")
-            }
-        } */
-
         try{
             const result = await apiCall(`/movie?page=${page}`, 'GET', {}, {})
             setMovies(result.movies)
             setTotalPages(Math.ceil(parseInt(result.totalMovies)/8));
             setIsFetching(false);
         }catch(error){
-            console.log("Movie List")
-            console.log(error)
+            // console.log("Movie List")
+            // console.log(error)
         }
     }
 
     function handlePaginationClick(page: number){
-        let pageNumber: number;
+        let pageNumber: number = currentPage;
         switch(page){
             case -1 : 
                 if(currentPage > 1){
                     pageNumber = currentPage - 1;
-                }else{
-                    pageNumber = currentPage
                 }
                 break;
             case +1: 
-                pageNumber = currentPage + 1;
+                if(currentPage != totalPages){
+                    pageNumber = currentPage + 1;
+                }
                 break;
             default:
                 pageNumber = page;
@@ -80,15 +58,23 @@ export default function MovieList (){
         pageNumber === 1 ? setPrevDisabled(true) : setPrevDisabled(false);
         pageNumber === totalPages ? setNextDisabled(true) : setNextDisabled(false);
 
+        sessionStorage.setItem('pageNumber', pageNumber.toString())
         setCurrentPage(pageNumber);
-        getMovies({ page: pageNumber })
+        // getMovies({ page: pageNumber })
     }
 
-    console.log("Fetching") // Called twice
+    // console.log("Fetching") // Called twice
 
     useEffect(() => {
-        getMovies({ page: currentPage });
-    }, [])
+        let fetchPageNumber = currentPage;
+        if (sessionStorage.getItem('pageNumber')) {
+            fetchPageNumber = parseInt(sessionStorage.getItem('pageNumber') || '1');
+        } else {
+            sessionStorage.setItem('pageNumber', currentPage.toString())
+        }
+        setCurrentPage(fetchPageNumber)
+        getMovies({ page: fetchPageNumber });
+    }, [currentPage])
 
     const handleLogout = () => {
         Cookies.remove('Authorization');
@@ -122,7 +108,6 @@ export default function MovieList (){
                         </div>
 
                         <div className={`${styles['movies-div']}`}>
-                        {/* <div className={`row row-cols-sm-2 ${styles['movies-div']}`}> */}
 
                             { movies.map((movie : {
                                 _id: string,
