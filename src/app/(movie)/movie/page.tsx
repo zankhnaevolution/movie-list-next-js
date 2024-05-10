@@ -30,7 +30,11 @@ export default function MovieList (){
         try{
             const result = await apiCall(`/movie?page=${page}`, 'GET', {}, {})
             setMovies(result.movies)
-            setTotalPages(Math.ceil(parseInt(result.totalMovies)/8));
+            let totalPage = Math.ceil(parseInt(result.totalMovies)/8);
+            setTotalPages(totalPage);
+            if(totalPage == 1){
+                setNextDisabled(true);
+            }
             setIsFetching(false);
         }catch(error){
             // console.log("Movie List")
@@ -39,7 +43,7 @@ export default function MovieList (){
     }
 
     function handlePaginationClick(page: number){
-        let pageNumber: number = currentPage;
+        let pageNumber: number = page;
         switch(page){
             case -1 : 
                 if(currentPage > 1){
