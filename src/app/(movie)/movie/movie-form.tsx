@@ -8,12 +8,12 @@ import Link from "next/link";
 import apiCall from "@/app/utils/apiCall";
 import toast from "react-hot-toast";
 
-export default function MovieForm({ pageName, movieId, movieObject = { title: '', published_year: '', img: null, img_url: '' } }: { pageName: string, movieId: string, movieObject: {
+export default function MovieForm({ pageName, movieId, movieObject = { title: '', published_year: '', img: null, img_url: '' } }: { pageName: string, movieId: string | undefined, movieObject: {
     title: string,
     published_year: string,
     img: string | null | Blob
     img_url: string
-} }){
+} | undefined }){
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 

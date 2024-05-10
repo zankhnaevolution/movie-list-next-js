@@ -5,7 +5,7 @@ import MovieForm from '../movie-form'
 export default function MovieCreate() {
     return(
         <>
-            <MovieForm pageName='create'/>
+            <MovieForm pageName={"create"} movieId={undefined} movieObject={undefined}/>
         </>
     )
 }
