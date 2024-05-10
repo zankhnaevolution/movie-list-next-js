@@ -2,7 +2,7 @@
 
 import MovieForm from '../movie-form'
 
-export default () => {
+export default function MovieCreate() {
     return(
         <>
             <MovieForm pageName='create'/>

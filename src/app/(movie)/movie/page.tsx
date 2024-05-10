@@ -13,7 +13,7 @@ import Head from "next/head";
 
 const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-export default () => {
+export default function MovieList (){
     const [ isFetching, setIsFetching ] = useState(true);
     const [ movies, setMovies ] = useState([]);
     const [ currentPage, setCurrentPage ] = useState(1)

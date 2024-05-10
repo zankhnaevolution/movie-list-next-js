@@ -7,7 +7,7 @@ import styles from '../../styles/signin.module.css'
 import cStyles from '../../styles/common.module.css';
 import toast from "react-hot-toast";
 
-export default () => {
+export default function SignIn() {
 
     let [ email, setEmail ] = useState("zankhna.r@evolutioncloud.in");
     let [ password, setPassword ] = useState("12345678");
