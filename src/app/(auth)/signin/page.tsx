@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 
 export default function SignIn() {
 
-    let [ email, setEmail ] = useState("zankhna.r@evolutioncloud.in");
-    let [ password, setPassword ] = useState("12345678");
+    let [ email, setEmail ] = useState("");
+    let [ password, setPassword ] = useState("");
     const router = useRouter();
 
     const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
