@@ -60,21 +60,21 @@ export default function MovieList (){
         }
     }
 
-    function handlePaginationClick(page: string | number){
+    function handlePaginationClick(page: number){
         let pageNumber: number;
         switch(page){
-            case 'prev' : 
+            case -1 : 
                 if(currentPage > 1){
                     pageNumber = currentPage - 1;
                 }else{
                     pageNumber = currentPage
                 }
                 break;
-            case 'next': 
+            case +1: 
                 pageNumber = currentPage + 1;
                 break;
             default:
-                pageNumber = parseInt(page);
+                pageNumber = page;
         }
 
         pageNumber === 1 ? setPrevDisabled(true) : setPrevDisabled(false);
@@ -152,7 +152,7 @@ export default function MovieList (){
                             <ul className={`pagination justify-content-center pb-4 ${cStyles["body-regular"]}`}>
                                 <span 
                                     className={`${styles["movie-nav-element"]} ${ prevDisabled ? styles['pagination-disabled'] : '' }`}
-                                    onClick={() => handlePaginationClick('prev')}
+                                    onClick={() => handlePaginationClick(-1)}
                                 >Prev</span>
 
                                 {[...Array(totalPages)].map((d, i) => 
@@ -165,7 +165,7 @@ export default function MovieList (){
 
                                 <span 
                                     className={`${styles["movie-nav-element"]} ${ nextDisabled ? styles['pagination-disabled'] : '' }`}
-                                    onClick={() => handlePaginationClick('next')}
+                                    onClick={() => handlePaginationClick(+1)}
                                 >Next</span>
                             </ul>
                         </nav>

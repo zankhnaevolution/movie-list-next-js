@@ -8,10 +8,10 @@ import Link from "next/link";
 import apiCall from "@/app/utils/apiCall";
 import toast from "react-hot-toast";
 
-export default function MovieForm({ pageName, movieId, movieObject = { title: '', published_year: '', img: null, img_url: '' } }: { pageName: string, movieId: string | undefined, movieObject: {
+export default function MovieForm({ pageName, movieId, movieObject = { title: '', published_year: '', img: '', img_url: '' } }: { pageName: string, movieId: string | undefined, movieObject: {
     title: string,
     published_year: string,
-    img: string | null | Blob
+    img: string | Blob
     img_url: string
 } | undefined }){
 
@@ -44,11 +44,11 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
             setFormData({
                 title: "",
                 published_year: "",
-                img: null,
+                img: '',
                 img_url: ''
             });
             setFileBlob("");
-        }catch(error){
+        }catch(error: any){
             if(error.response && error.response.data && error.response.data.message){
                 toast.error(error.response.data.message);
             }else{
@@ -86,7 +86,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
         try{
             await apiCall(`/movie/${movieId}`, 'PATCH', apiData, {});
             toast.success('Wohooo, Movie updated!!!')
-        }catch(error){
+        }catch(error: any){
             if(error.response && error.response.data && error.response.data.message){
                 toast.error(error.response.data.message);
             }else{
@@ -110,7 +110,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
             .catch((error) => console.error(error)); */
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -118,7 +118,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
         }));
     };
 
-    const handleFileChange = (e) => {
+    const handleFileChange = (e: any) => {
         setFileBlob(URL.createObjectURL(e.target.files[0]))
         const file = e.target.files[0];
         setFormData((prevData) => ({
@@ -127,11 +127,11 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
         }));
     };
 
-    const handleResetImage = (e) => {
+    const handleResetImage = (e: any) => {
         e.preventDefault();
         setFormData((prevData) => ({
             ...prevData,
-            img: null,
+            img: '',
             img_url: ''
         }))
         setFileBlob("");
@@ -223,7 +223,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                         placeholder="Title" 
                                         onChange={(e) => handleChange(e)} />
 
-                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message && '' }</p>
                                 </div>
                     
                                 <div className="mb-3">
@@ -240,7 +240,7 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                         placeholder='Published Year'
                                         onChange={(e) => handleChange(e)} />
 
-                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message && '' }</p>
                                 </div>
 
                             </div>
