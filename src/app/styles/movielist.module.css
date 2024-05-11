@@ -8,22 +8,6 @@
     padding: 6% 8% 6% 8%;
 }
 
-/* .movies-div{
-    justify-content: center;
-}
-
-.movie-div{
-    background-color: #092C39;
-    width: 250px;
-    height: 504px;
-    margin-left: 15px;
-    position: relative;
-    border: none;
-    border-radius: 12px;
-    margin-bottom:  1.5rem;
-    margin-left:  1.5rem;
-} */
-
 .movies-div{
     display: flex;
     flex-wrap: wrap;
@@ -33,7 +17,6 @@
 .movie-div{
     background-color: #092C39;
     flex: 0 1 22%;
-    /* height: 504px; */
     position: relative;
     border: none;
     border-radius: 12px;
@@ -50,15 +33,12 @@
 .movie-div-card{
     background: #092C39;
     border: none;
-    /* height: 100%; */
 }
 
 .movie-img{
     width: 100%;
-    /* height: 100%; */
     padding: 3%;
     border-radius: 12px;
-    /* position: inherit; */
     aspect-ratio: 2/3;
 }
 
