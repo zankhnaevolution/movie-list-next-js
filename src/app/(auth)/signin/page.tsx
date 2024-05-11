@@ -35,6 +35,7 @@ export default function SignIn() {
                 {
                     method: "POST",
                     headers: {
+                        mode: 'no-cors',
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
