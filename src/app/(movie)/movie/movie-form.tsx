@@ -180,11 +180,11 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                             required: "Movie title is required" 
                                         } )}
                                         value={formData.title}
-                                        className={`form-control ${styles["input-css"]} ${styles["input-css-title"]} ${errors.title?.message ? styles['input-css-error'] : ''}`} 
+                                        className={`form-control ${styles["input-css"]} ${styles["input-css-title"]} ${errors.title?.message ? cStyles['input-css-error'] : ''}`} 
                                         placeholder="Title" 
                                         onChange={(e) => handleChange(e)} />
 
-                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.title?.message }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${cStyles["error-text"]}`}>{ errors.title?.message }</p>
                                 </div>
                     
                                 <div className="mb-3">
@@ -197,11 +197,11 @@ export default function MovieForm({ pageName, movieId, movieObject = { title: ''
                                             } 
                                         } ) }
                                         value={formData.published_year}
-                                        className={`form-control ${styles["input-css"]} ${styles["input-css-publishedyear"]} ${errors.published_year?.message ? styles['input-css-error'] : ''}`}
+                                        className={`form-control ${styles["input-css"]} ${styles["input-css-publishedyear"]} ${errors.published_year?.message ? cStyles['input-css-error'] : ''}`}
                                         placeholder='Published Year'
                                         onChange={(e) => handleChange(e)} />
 
-                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${styles["error-text"]}`}>{ errors.published_year?.message }</p>
+                                    <p className={`mt-2 ${cStyles["body-extra-small"]} ${cStyles["error-text"]}`}>{ errors.published_year?.message }</p>
                                 </div>
 
                             </div>

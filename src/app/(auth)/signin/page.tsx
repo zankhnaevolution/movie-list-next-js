@@ -3,13 +3,22 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react"
 import Cookies from 'js-cookie';
+import { useForm } from 'react-hook-form';
 import styles from '../../styles/signin.module.css'
 import cStyles from '../../styles/common.module.css';
+
+type Inputs = {
+    email: string,
+    password: string
+}
 
 export default function SignIn() {
 
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+
     const [ rememberMe, setRememberMe ] = useState(false);
     const [ error, setError ] = useState(false);
     const [ showPassword, setShowPassword ] = useState(false);
@@ -17,8 +26,8 @@ export default function SignIn() {
 
     const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-    function handleSubmit(e: FormEvent){
-        e.preventDefault();
+    function handleFormSubmit(/* e: FormEvent */){
+        // e.preventDefault();
 
         if(email && password){
             fetch(
@@ -69,25 +78,43 @@ export default function SignIn() {
                     Incorrect Email or Password
                 </div> }
 
-                <form method="post" onSubmit={(e) => handleSubmit(e)}>
+                <form method="post" onSubmit={handleSubmit(handleFormSubmit)}>
                     <div className="mb-3">
                         <input 
+                            {
+                                ...register('email', {
+                                    required: 'Email is required'
+                                })
+                            }
                             value={email}
-                            className={`form-control ${styles["input-css"]}`} 
+                            className={`form-control ${styles["input-css"]} ${errors.email?.message ? cStyles['input-css-error'] : '' }`} 
                             placeholder="Email" 
                             onChange={(e) => setEmail(e.target.value)}
                             onKeyDown={() =>  handleKeyDown()} />
+                        <p className={`mt-2 ${cStyles["body-extra-small"]} ${cStyles["error-text"]}`}>{ errors.email?.message }</p>
                     </div>
         
-                    <div className={`mb-3 ${styles["password-div"]}`}>                        
-                        <span className={styles['eye-css']}><i className={`bi ${ showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill' }`} onClick={() => setShowPassword(!showPassword)}></i></span>
-                        <input
-                            value={password} 
-                            className={`form-control ${styles["input-css"]}`}
-                            placeholder="Password" 
-                            type={ showPassword ? 'text' : 'password' }
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyDown={() =>  handleKeyDown()} />
+                    <div className={`mb-3`}>  
+                        <span className={styles["password-div"]}>                      
+                            <span className={styles['eye-css']}><i className={`bi ${ showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill' }`} onClick={() => setShowPassword(!showPassword)}></i></span>
+                            <input
+                                {
+                                    ...register('password', {
+                                        required: 'Password is required',
+                                        pattern:{
+                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+                                            message: "Pasword must has at least 8 characters that include at least 1 lowercase character, 1 uppercase character, 1 number and 1 special character in (!@#$%^&*)"
+                                        }
+                                    })   
+                                }
+                                value={password} 
+                                className={`form-control ${styles["input-css"]} ${errors.password?.message ? cStyles['input-css-error'] : ''}`}
+                                placeholder="Password" 
+                                type={ showPassword ? 'text' : 'password' }
+                                onChange={(e) => setPassword(e.target.value)}
+                                onKeyDown={() =>  handleKeyDown()} />
+                        </span>
+                        <p className={`mt-2 ${cStyles["body-extra-small"]} ${cStyles["error-text"]}`}>{ errors.password?.message }</p>
                     </div>
 
                     <div className={`mb-3 ${styles["wrapper"]} ${cStyles["body-small"]}`}>

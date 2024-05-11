@@ -82,12 +82,6 @@
     outline: none;
     box-shadow: none;
 }
-.input-css-error{
-    border-color: #EB5757 !important;
-}
-.error-text{
-    color: #EB5757 !important;
-}
 .btn-container{
     display: flex;
     justify-content: space-between;

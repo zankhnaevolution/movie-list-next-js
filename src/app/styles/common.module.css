@@ -38,6 +38,13 @@
     line-height: 24px;
 }
 
+.input-css-error{
+    border-color: #EB5757 !important;
+}
+
+.error-text{
+    color: #EB5757 !important;
+}
 @media only screen and (max-width: 600px) {    
     .h2-css{
         font-size: 32px;
