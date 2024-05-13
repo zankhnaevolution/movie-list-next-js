@@ -19,7 +19,6 @@ const apiCall = async(
         axiosHeaders = { 
             ...axiosHeaders, 
             'Authorization': `${access_token}`,
-            "ngrok-skip-browser-warning": "69420",
         }
     }
     
