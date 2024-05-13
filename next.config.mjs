@@ -3,7 +3,7 @@ const nextConfig = {
     reactStrictMode: false,
     // serverActions: false
 
-    async headers(){
+    /* async headers(){
         return [{
             source: '/:path*',
             headers: [
@@ -24,7 +24,7 @@ const nextConfig = {
                 }
             ]
         }]
-    }
+    } */
 
 };
 
