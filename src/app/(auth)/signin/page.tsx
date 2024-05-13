@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import { useForm } from 'react-hook-form';
 import styles from '../../styles/signin.module.css'
 import cStyles from '../../styles/common.module.css';
+import apiCall from "@/app/utils/apiCall";
 
 type Inputs = {
     email: string,
@@ -14,8 +15,8 @@ type Inputs = {
 
 export default function SignIn() {
 
-    const [ email, setEmail ] = useState("");
-    const [ password, setPassword ] = useState("");
+    const [ email, setEmail ] = useState("zankhna.d@evolutioncloud.in");
+    const [ password, setPassword ] = useState("Evolution@123");
 
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
@@ -24,13 +25,28 @@ export default function SignIn() {
     const [ showPassword, setShowPassword ] = useState(false);
     const router = useRouter();
 
-    const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+    // const NEXT_PUBLIC_BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-    function handleFormSubmit(/* e: FormEvent */){
+    async function handleFormSubmit(/* e: FormEvent */){
         // e.preventDefault();
 
         if(email && password){
-            fetch(
+
+            try{
+                let result = await apiCall('/signin', 'POST', { email, password }, { "Content-Type": "application/json" });
+                if(rememberMe){
+                    Cookies.set('Authorization', `Bearer ${result.access_token}`, { expires: 7 });
+                    Cookies.set('refresh_token', `${result.refresh_token}`, { expires: 7 });
+                }else{
+                    Cookies.set('Authorization', `Bearer ${result.access_token}`);
+                    Cookies.set('refresh_token', `${result.refresh_token}`);
+                } 
+                router.push('/movie/')
+            }catch(error){
+                setError(true);
+            }
+
+            /* fetch(
                 `${NEXT_PUBLIC_BACKEND_API_URL}/signin`, 
                 {
                     method: "POST",
@@ -62,7 +78,7 @@ export default function SignIn() {
                 })
                 .catch((error) => {    
                     setError(true);
-                });
+                }); */
         }
     }
 
