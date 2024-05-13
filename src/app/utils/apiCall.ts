@@ -10,18 +10,25 @@ const apiCall = async(
     method: string,
     data: object,
     headers: object,
+    passAccesstoken: boolean = true
 ) => {
 
-    let access_token = Cookies.get('Authorization');
+    let axiosHeaders = { ...headers };
+    if(passAccesstoken){
+        let access_token = Cookies.get('Authorization');
+        axiosHeaders = { 
+            ...axiosHeaders, 
+            'Authorization': `${access_token}`,
+            "ngrok-skip-browser-warning": "69420",
+        }
+    }
+    
     try{
         const response = await axiosRequest({
             url: `${NEXT_PUBLIC_BACKEND_API_URL}${url}`,
             method,
             data,
-            headers:{
-                ...headers,
-                'Authorization': `${access_token}`
-            }
+            headers: axiosHeaders
         })
         return response.data;
     }catch(error){

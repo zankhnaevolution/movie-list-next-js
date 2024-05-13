@@ -33,7 +33,7 @@ export default function SignIn() {
         if(email && password){
 
             try{
-                let result = await apiCall('/signin', 'POST', { email, password }, { "Content-Type": "application/json" });
+                let result = await apiCall('/signin', 'POST', { email, password }, { "Content-Type": "application/json" }, false);
                 if(rememberMe){
                     Cookies.set('Authorization', `Bearer ${result.access_token}`, { expires: 7 });
                     Cookies.set('refresh_token', `${result.refresh_token}`, { expires: 7 });
